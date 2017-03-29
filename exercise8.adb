@@ -14,6 +14,7 @@ procedure exercise8 is
     private
         Finished_Gate_Open  : Boolean := False;
         Aborted             : Boolean := False;
+        Should_Commit       : Boolean := False;
     end Transaction_Manager;
     protected body Transaction_Manager is
         entry Finished when Finished_Gate_Open or Finished'Count = N is
@@ -22,6 +23,7 @@ procedure exercise8 is
       	
       		if Finished'Count = 0 then
       			Finished_Gate_Open := False;
+      		end if;
 			Aborted := False;
         end Finished;
 	
@@ -71,10 +73,6 @@ procedure exercise8 is
         Put_Line ("Worker" & Integer'Image(Initial) & " started");
 
         loop
-
-            ---------------------------------------
-            -- PART 2: Do the transaction work here             
-            ---------------------------------------
 	    
 	 select 
 	    Manager.Wait_Until_Aborted;
@@ -90,6 +88,8 @@ procedure exercise8 is
 		  Manager.Signal_Abort;
 	    end;	    
 	 end select;
+	 
+	 Put_Line ("Worker" & Integer'Image(Initial) & " value is" & Integer'Image(Num));
 
 	 Manager.Finished;
 
