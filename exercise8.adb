@@ -80,7 +80,7 @@ procedure exercise8 is
 					Num := Unreliable_Slow_Add(Num);
 				exception
 					when Count_Failed =>
-					Put_Line("Worker " & Integer'Image(Initial) & " aborted");
+					Put_Line("Worker" & Integer'Image(Initial) & " aborted");
 					Manager.Signal_Abort;
 				end;	    
 			end select;
